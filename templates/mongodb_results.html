@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoDB Results</title>
+</head>
+<body>
+    <h1>MongoDB Results</h1>
+
+    {% if error_message %}
+    <p>{{ error_message }}</p>
+    {% else %}
+    <h2>Collections:</h2>
+    <ul>
+        {% for collection in collections %}
+        <li>{{ collection }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Documents:</h2>
+    {% for collection, documents in documents.items() %}
+    <h3>Collection: {{ collection }}</h3>
+    <ul>
+        {% for document in documents %}
+        <li>{{ document }}</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+    {% endif %}
+</body>
+</html>
