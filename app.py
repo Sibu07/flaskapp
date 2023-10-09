@@ -15,7 +15,7 @@ app.register_blueprint(about_bp)
 app.register_blueprint(contact_bp)
 app.register_blueprint(tgbot_bp)
 app.register_blueprint(mongodb_bp)
-app.register_blueprint(mongodb_update_bp, url_prefix='/mongodb_update')
+app.register_blueprint(mongodb_update_bp)
 app.register_blueprint(allroutes_bp)
 
 if __name__ == '__main__':
