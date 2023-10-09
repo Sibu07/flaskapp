@@ -43,21 +43,22 @@
     <!-- Include Bootstrap JavaScript (optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
 
-    <script>
-        // JavaScript to copy the text of each output on button click
-        const copyButtons = document.querySelectorAll('.copy-button');
-        copyButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const textToCopy = button.parentElement.textContent.trim();
-                const textArea = document.createElement('textarea');
-                textArea.value = textToCopy;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                alert('Copied to clipboard: ' + textToCopy);
-            });
+<script>
+    // JavaScript to copy the text of each output on button click
+    const copyButtons = document.querySelectorAll('.copy-button');
+    copyButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const textToCopy = button.parentElement.textContent.replace('Copy', '').trim();
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Copied to clipboard: ' + textToCopy);
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
