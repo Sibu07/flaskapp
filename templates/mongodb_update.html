@@ -11,43 +11,41 @@
         <label for="mongo_uri">Enter your MongoDB connection URL:</label>
         <input type="text" name="mongo_uri" id="mongo_uri" required><br>
 
-        <!-- Add a button to retrieve collections -->
-        <button type="button" onclick="fetchCollections()">Retrieve Collections</button><br>
+        <button type="button" id="fetchCollections">Fetch Collections</button><br>
 
-        <!-- Add a dropdown select box for collections -->
         <label for="collection_name">Select the Collection to update:</label>
         <select name="collection_name" id="collection_name" required>
-            <option value="" disabled selected>Select a Collection</option>
+            <!-- Dropdown options will be populated dynamically -->
         </select><br>
 
         <button type="submit">Update Collection</button>
     </form>
 
     <script>
-        function fetchCollections() {
-            // Retrieve the MongoDB connection URL from the input field
-            var mongoUri = document.getElementById("mongo_uri").value;
+        // JavaScript to fetch and populate the collection names
+        document.getElementById("fetchCollections").addEventListener("click", function() {
+            const mongoUri = document.getElementById("mongo_uri").value;
+            const collectionDropdown = document.getElementById("collection_name");
 
-            // Make a GET request to fetch collections
-            fetch("/get_collections?mongo_uri=" + encodeURIComponent(mongoUri))
+            // Make an AJAX request to fetch the collections
+            fetch(`/get_collections?mongo_uri=${mongoUri}`)
                 .then(response => response.json())
-                .then(data => {
-                    var collectionSelect = document.getElementById("collection_name");
-                    collectionSelect.innerHTML = "<option value='' disabled selected>Select a Collection</option>";
+                .then(collections => {
+                    // Clear existing options
+                    collectionDropdown.innerHTML = "";
 
-                    // Populate the select box with retrieved collections
-                    data.collections.forEach(collection => {
-                        var option = document.createElement("option");
+                    // Populate the dropdown with retrieved collections
+                    collections.forEach(collection => {
+                        const option = document.createElement("option");
                         option.value = collection;
                         option.textContent = collection;
-                        collectionSelect.appendChild(option);
+                        collectionDropdown.appendChild(option);
                     });
                 })
                 .catch(error => {
-                    console.error(error);
-                    alert("Failed to retrieve collections. Please check the connection URL.");
+                    console.error("Failed to fetch collections:", error);
                 });
-        }
+        });
     </script>
 </body>
 </html>

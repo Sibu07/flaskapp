@@ -38,18 +38,26 @@ def mongodb_update():
     return render_template('mongodb_update.html')
     
 # routes/mongodb_update_routes.py
+
 # ... (previous code)
 
-@mongodb_update_bp.route('/get_collections', methods=['GET'])
+# Define a route to fetch all collections associated with the provided MongoDB connection URL
+@mongodb_update_bp.route('/get_collections')
 def get_collections():
     mongo_uri = request.args.get('mongo_uri')
-    try:
-        client = pymongo.MongoClient(mongo_uri)
-        db = client.get_database()
-        collections = db.list_collection_names()
-        client.close()
-        return jsonify({'collections': collections})
-    except pymongo.errors.ConnectionFailure:
-        return jsonify({'collections': []})  # Return an empty list on connection failure
 
-# ... (continue with the previous code)
+    try:
+        # Create a MongoDB client
+        client = pymongo.MongoClient(mongo_uri)
+
+        # Get the database associated with the connection
+        database_names = client.list_database_names()
+
+        # Close the connection
+        client.close()
+
+        return jsonify(database_names)  # Return the list of database names as JSON
+
+    except pymongo.errors.ConnectionFailure:
+        error_message = "Failed to connect to MongoDB. Please check the connection URL."
+        return jsonify(error=error_message), 500  # Return an error message with status code 500
