@@ -1,5 +1,5 @@
 # routes/mongodb_update_routes.py
-from flask import Blueprint, request, render_template
+from flask import Blueprint, request, render_template, jsonify
 import pymongo
 
 mongodb_update_bp = Blueprint('mongodb_update', __name__)
@@ -37,3 +37,21 @@ def mongodb_update():
 
     return render_template('mongodb_update.html')
     
+@mongodb_update_bp.route('/get_collections', methods=['GET'])
+def get_collections():
+    mongo_uri = request.args.get('mongo_uri')
+    
+    try:
+        # Create a MongoDB client
+        client = pymongo.MongoClient(mongo_uri)
+
+        # Fetch the list of collections
+        collections = client.list_database_names()
+        
+        # Close the connection
+        client.close()
+        
+        return jsonify(collections)
+    except pymongo.errors.ConnectionFailure:
+        return jsonify([])  # Return an empty list if there's a connection issue
+        

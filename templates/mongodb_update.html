@@ -11,10 +11,45 @@
         <label for="mongo_uri">Enter your MongoDB connection URL:</label>
         <input type="text" name="mongo_uri" id="mongo_uri" required><br>
 
-        <label for="collection_name">Enter the Collection Name to update:</label>
-        <input type="text" name="collection_name" id="collection_name" required><br>
+        <!-- Add a button to fetch collections -->
+        <button type="button" id="fetchCollections">Fetch Collections</button><br>
+
+        <!-- Add a dropdown select field for collections -->
+        <label for="collection_name">Select a Collection to update:</label>
+        <select name="collection_name" id="collection_name" required>
+            <!-- Options will be added dynamically using JavaScript -->
+        </select><br>
 
         <button type="submit">Update Collection</button>
     </form>
+
+    <script>
+        // JavaScript to fetch collections and populate the dropdown
+        document.getElementById("fetchCollections").addEventListener("click", function() {
+            var mongo_uri = document.getElementById("mongo_uri").value;
+
+            // Make an AJAX request to fetch collections
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/get_collections?mongo_uri=" + mongo_uri, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var collections = JSON.parse(xhr.responseText);
+                    var collectionSelect = document.getElementById("collection_name");
+
+                    // Clear existing options
+                    collectionSelect.innerHTML = "";
+
+                    // Add fetched collections as options
+                    collections.forEach(function(collection) {
+                        var option = document.createElement("option");
+                        option.value = collection;
+                        option.text = collection;
+                        collectionSelect.appendChild(option);
+                    });
+                }
+            };
+            xhr.send();
+        });
+    </script>
 </body>
 </html>
