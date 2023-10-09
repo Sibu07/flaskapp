@@ -42,11 +42,12 @@ def mongodb_update():
 # ... (previous code)
 
 # Define a route to fetch all collections associated with the provided MongoDB connection URL
-@mongodb_update_bp.route('/get_collections')
+@mongodb_update_bp.route('/get_collections', methods=['GET'])
 def get_collections():
-    mongo_uri = request.args.get('mongo_uri')
-
     try:
+        # Retrieve the MongoDB connection URL from the query parameter
+        mongo_uri = request.args.get('mongo_uri')
+
         # Create a MongoDB client
         client = pymongo.MongoClient(mongo_uri)
 
