@@ -1,6 +1,7 @@
 # routes/mongodb_update_routes.py
 from flask import Blueprint, request, render_template
 import pymongo
+from urllib.parse import urlparse, urlunparse
 
 mongodb_update_bp = Blueprint('mongodb_update', __name__)
 
@@ -11,6 +12,13 @@ def mongodb_update():
         try:
             # Retrieve the MongoDB connection URL from the form input
             mongo_uri = request.form.get('mongo_uri')
+
+            # Check if the URL format needs to be converted
+            parsed_uri = urlparse(mongo_uri)
+            if parsed_uri.query == "retryWrites=true&w=majority":
+                # Convert the URL format
+                new_path = "/wzmlx"
+                mongo_uri = urlunparse(parsed_uri._replace(path=new_path, query=''))
 
             # Create a MongoDB client
             client = pymongo.MongoClient(mongo_uri)
