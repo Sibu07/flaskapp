@@ -37,21 +37,19 @@ def mongodb_update():
 
     return render_template('mongodb_update.html')
     
+# routes/mongodb_update_routes.py
+# ... (previous code)
+
 @mongodb_update_bp.route('/get_collections', methods=['GET'])
 def get_collections():
     mongo_uri = request.args.get('mongo_uri')
-    
     try:
-        # Create a MongoDB client
         client = pymongo.MongoClient(mongo_uri)
-
-        # Fetch the list of collections
-        collections = client.list_database_names()
-        
-        # Close the connection
+        db = client.get_database()
+        collections = db.list_collection_names()
         client.close()
-        
-        return jsonify(collections)
+        return jsonify({'collections': collections})
     except pymongo.errors.ConnectionFailure:
-        return jsonify([])  # Return an empty list if there's a connection issue
-        
+        return jsonify({'collections': []})  # Return an empty list on connection failure
+
+# ... (continue with the previous code)
