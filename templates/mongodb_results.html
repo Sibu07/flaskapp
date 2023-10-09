@@ -4,63 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MongoDB Results</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>MongoDB Results</h1>
+    <div class="container">
+        <h1 class="mt-5">MongoDB Results</h1>
 
-    {% if error_message %}
-    <p>{{ error_message }}</p>
-    {% else %}
-    <h2>Collections:</h2>
-    <ul>
-        {% for collection in collections %}
-        <li>{{ collection }}</li>
-        {% endfor %}
-    </ul>
+        {% if error_message %}
+        <p>{{ error_message }}</p>
+        {% else %}
+        <h2 class="mt-4">Collections:</h2>
+        <ul class="list-group">
+            {% for collection in collections %}
+            <li class="list-group-item">{{ collection }}</li>
+            {% endfor %}
+        </ul>
 
-    <h2>Documents:</h2>
-    {% for collection, documents in documents.items() %}
-    <h3>Collection: {{ collection }}</h3>
-    <ul>
-        {% for document in documents %}
-        <li>{{ document }}</li>
-        {% endfor %}
-    </ul>
-    {% endfor %}
-    
-    <!-- Add a button to open the pop-up window -->
-    <button id="openPopup">Open Pop-up Window</button>
-
-    <script>
-    // JavaScript to open a pop-up window when the button is clicked
-    document.getElementById("openPopup").addEventListener("click", function() {
-        var popupWindow = window.open("", "_blank", "width=600,height=400");
-        popupWindow.document.write("<h2>MongoDB Results</h2>");
-
-        // Display the collections and documents in the pop-up window
-        popupWindow.document.write("<h3>Collections:</h3><ul>");
-        {% for collection in collections %}
-        popupWindow.document.write("<li>{{ collection }}</li>");
-        {% endfor %}
-        popupWindow.document.write("</ul>");
-
+        <h2 class="mt-4">Documents:</h2>
         {% for collection, documents in documents.items() %}
-        popupWindow.document.write("<h3>Collection: {{ collection }}</h3><ul>");
-        {% for document in documents %}
-        popupWindow.document.write("<li>");
-        
-        // Loop through document keys and values and display them
-        {% for key, value in document.items() %}
-        popupWindow.document.write("{{ key }}: {{ value }}<br>");
+        <h3 class="mt-3">Collection: {{ collection }}</h3>
+        <ul class="list-group">
+            {% for document in documents %}
+            <li class="list-group-item">
+                <ul>
+                    {% for key, value in document.items() %}
+                    <li>{{ key }}: {{ value }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
         {% endfor %}
-        
-        popupWindow.document.write("</li>");
-        {% endfor %}
-        popupWindow.document.write("</ul>");
-        {% endfor %}
-    });
-</script>
+        {% endif %}
+    </div>
 
-    {% endif %}
+    <!-- Include Bootstrap JavaScript (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
