@@ -18,7 +18,7 @@
         <h2 class="mt-4">Collections:</h2>
         <ul class="list-group">
             {% for collection in collections %}
-            <li class="list-group-item">{{ collection }}</li>
+            <li class="list-group-item">{{ collection }} <button class="btn btn-primary copy-button">Copy</button></li>
             {% endfor %}
         </ul>
 
@@ -30,7 +30,7 @@
             <li class="list-group-item">
                 <ul>
                     {% for key, value in document.items() %}
-                    <li>{{ key }}: {{ value }}</li>
+                    <li>{{ key }}: {{ value }} <button class="btn btn-primary copy-button">Copy</button></li>
                     {% endfor %}
                 </ul>
             </li>
@@ -42,5 +42,22 @@
 
     <!-- Include Bootstrap JavaScript (optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        // JavaScript to copy the text of each output on button click
+        const copyButtons = document.querySelectorAll('.copy-button');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const textToCopy = button.parentElement.textContent.trim();
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Copied to clipboard: ' + textToCopy);
+            });
+        });
+    </script>
 </body>
 </html>
