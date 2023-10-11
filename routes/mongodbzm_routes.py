@@ -16,7 +16,7 @@ def mongodbzm_query():
             client = pymongo.MongoClient(mongo_url)
 
             # Access your database (Replace 'wzmlx' with your actual database name)
-            db = client['zmirror']
+            db = client['z']
 
             # List all the collections in the database
             collections = db.list_collection_names()

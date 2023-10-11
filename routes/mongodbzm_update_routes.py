@@ -17,7 +17,7 @@ def mongodbzm_update():
             parsed_uri = urlparse(mongo_uri)
             if parsed_uri.query == "retryWrites=true&w=majority":
                 # Convert the URL format
-                new_path = "/zmirror"
+                new_path = "/z"
                 mongo_uri = urlunparse(parsed_uri._replace(path=new_path, query=''))
 
             # Create a MongoDB client
