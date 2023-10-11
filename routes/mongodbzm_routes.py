@@ -1,4 +1,4 @@
-# routes/mongodb_routes.py
+# routes/mongodbzm_routes.py
 from flask import Blueprint, request, render_template
 import pymongo
 
@@ -6,7 +6,7 @@ mongodbzm_bp = Blueprint('mongodbzm', __name__)
 
 # Define a route to take input from the user for the MongoDB connection URL
 @mongodbzm_bp.route('/mongodbzm_query', methods=['GET', 'POST'])
-def mongodb_query():
+def mongodbzm_query():
     if request.method == 'POST':
         # Retrieve the MongoDB connection URL from the form input
         mongo_url = request.form.get('mongo_url')
