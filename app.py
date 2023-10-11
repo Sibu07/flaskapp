@@ -8,6 +8,7 @@ from routes.mongodb_update_routes import mongodb_update_bp
 from routes.allroutes_routes import allroutes_bp
 from routes.mongodbzm_routes import mongodbzm_bp
 from routes.mongodbzm_update_routes import mongodbzm_update_bp
+from routes.mongodb_list_route import mongodb_list_bp
 
 app = Flask(__name__)
 
@@ -21,6 +22,7 @@ app.register_blueprint(mongodb_update_bp)
 app.register_blueprint(allroutes_bp)
 app.register_blueprint(mongodbzm_bp)
 app.register_blueprint(mongodbzm_update_bp)
+app.register_blueprint(mongodb_list_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)

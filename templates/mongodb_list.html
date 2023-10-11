@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List MongoDB Databases and Collections</title>
+</head>
+<body>
+    <h1>List MongoDB Databases and Collections</h1>
+
+    {% if error_message %}
+    <p style="color: red;">{{ error_message }}</p>
+    {% else %}
+    <h2>Databases and Collections:</h2>
+    <ul>
+        {% for db_name, collections in database_collections.items() %}
+        <li>Database: {{ db_name }}</li>
+        <ul>
+            {% for collection in collections %}
+            <li>Collection: {{ collection }}</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <a href="/">Back to Home</a>
+</body>
+</html>
