@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoDB Databases and Collections</title>
+</head>
+<body>
+    <h1>MongoDB Databases and Collections</h1>
+
+    {% if error_message %}
+    <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+
+    {% if database_collections %}
+    <h2>List of Databases and Collections:</h2>
+    <ul>
+        {% for db_name, collections in database_collections.items() %}
+        <li>
+            <strong>Database: {{ db_name }}</strong>
+            <ul>
+                {% for collection in collections %}
+                <li>Collection: {{ collection }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <a href="/list_databases_collections">Back to List Page</a>
+</body>
+</html>

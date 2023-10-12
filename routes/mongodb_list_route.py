@@ -1,30 +1,39 @@
-from flask import Blueprint, render_template
+# routes/mongodb_routes.py
+from flask import Blueprint, request, render_template, jsonify
 import pymongo
 
 mongodb_list_bp = Blueprint('mongodb_list', __name__)
 
-@mongodb_list_bp.route('/mongodb_list')
-def mongodb_list():
-    try:
-        # Replace with your MongoDB connection string
-        mongo_url = "YOUR_MONGODB_CONNECTION_STRING"
-        client = pymongo.MongoClient(mongo_url)
+# Define a route to list all databases and their collections
+@mongodb_list_bp.route('/list_databases_collections', methods=['GET', 'POST'])
+def list_databases_collections():
+    if request.method == 'POST':
+        try:
+            # Retrieve the MongoDB connection URL from the form input
+            mongo_uri = request.form.get('mongo_uri')
 
-        # List all the databases in your cluster
-        all_databases = client.list_database_names()
+            # Create a MongoDB client
+            client = pymongo.MongoClient(mongo_uri)
 
-        database_collections = {}  # To store collections for each database
+            # List all the databases in your cluster
+            all_databases = client.list_database_names()
 
-        for db_name in all_databases:
-            db = client[db_name]
-            collections = db.list_collection_names()
-            database_collections[db_name] = collections
+            # Create a dictionary to store database names and their collections
+            database_collections = {}
 
-        client.close()
+            # Iterate through the databases and list their collections
+            for db_name in all_databases:
+                db = client[db_name]
+                collections = db.list_collection_names()
+                database_collections[db_name] = collections
 
-        return render_template('mongodb_list.html', database_collections=database_collections)
+            # Close the connection
+            client.close()
 
-    except pymongo.errors.ConnectionFailure:
-        error_message = "Failed to connect to MongoDB. Please check the connection URL."
-        return render_template('mongodb_list.html', error_message=error_message)
+            return render_template('mongodb_result.html', database_collections=database_collections)
 
+        except pymongo.errors.ConnectionFailure:
+            error_message = "Failed to connect to MongoDB. Please check the connection URL."
+            return render_template('mongodb_result.html', error_message=error_message)
+
+    return render_template('mongodb.html')
