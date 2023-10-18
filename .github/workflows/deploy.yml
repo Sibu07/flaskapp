@@ -10,9 +10,9 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.14
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "newbottt"
+          heroku_app_name: "mongoflask101823"
           heroku_email: "herono1692@outlook.com"
-          team: "a"
+          team: "arctix01"
           region: "eu"
           procfile: "web: gunicorn --bind 0.0.0.0:$PORT app:app"
         
